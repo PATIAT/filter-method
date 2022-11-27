@@ -21,6 +21,11 @@ const people = [
   },
 ];
 
+const oldEnough = people.filter(person => person.age > 21);
+console.log(oldEnough);
+
+const paul = people.filter(person => person.name === 'Paul')
+console.log(paul);
 
 // Complex Filtering
 const students = [
@@ -55,3 +60,22 @@ const students = [
     ]
   },
 ];
+
+/*
+This function is verbose and although works, it is overly complex
+const candidates = students.filter(student => { // filters students array
+  let strongSkills = student.skills.filter(skill => skill.yrsExperience >= 5) // filters and returns an array of students with > 5 years experience
+  return strongSkills.length > 0;
+})
+
+console.log(candidates);
+*/
+
+// This puts the filter function from above into it own callback function which can be called and reused
+const has5yearsExp = skill => skill.yrsExperience >= 5;//Extracts inner filter from above and passes it in the outer filter and can remove return statement too
+const hasStrongSkills = student => student.skills.filter(has5yearsExp).length > 0;  // filters students array // filters and returns an array of students with > 5 years experience
+const candidates = students.filter(hasStrongSkills);
+console.log(candidates);
+
+const names = candidates.map(students => students.name);
+console.log(names);
